@@ -45,4 +45,7 @@ class User extends Authenticatable
     function persona(){
         return $this->hasOne(Persona::class);
     }
+    function roles(){
+        return $this->belongsToMany(Rol::class, 'rol_usuario', 'usuario_id', 'rol_id');
+    }
 }
