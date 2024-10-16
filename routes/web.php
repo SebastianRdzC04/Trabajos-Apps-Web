@@ -21,14 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {return view('pages.home');})->name('home');
 
-    
-    
-    
     Route::middleware('admin')->group(function () {
         Route::get('agregar-usuario', function () {return view('pages.agregarUsuario');})->name('addUser');
         Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
     });
-
     
     Route::get('add-direccion', [DireccionController::class, 'create'])->name('addDireccion');
 
@@ -41,7 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::post('add-persona', [PersonaController::class, 'store'])->name('storePersona');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-
 
     Route::post('add-direccion', [DireccionController::class, 'store'])->name('storeDireccion');
 
