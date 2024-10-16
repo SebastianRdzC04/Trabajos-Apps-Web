@@ -7,6 +7,7 @@
     <section class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
+                @if (auth()->user()->roles->contains('id', 1))
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card">
@@ -127,6 +128,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card mt-3">
@@ -138,7 +140,9 @@
                                             <th>Calle</th>
                                             <th>Numero</th>
                                             <th>Colonia</th>
+                                            @if (auth()->user()->roles->contains('id', 1))
                                             <th>Persona de la direccion</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -147,6 +151,7 @@
                                                 <td>{{ $direccion->calle }}</td>
                                                 <td>{{ $direccion->numero }}</td>
                                                 <td>{{ $direccion->colonia }}</td>
+                                                @if (auth()->user()->roles->contains('id', 1))            
                                                 <td>
                                                     <form id="changePersona" method="POST" action="{{route('changeDireccionPersona')}}">
                                                         @csrf
@@ -164,6 +169,7 @@
 
                                                     </form>
                                                 </td>
+                                                @endif
                                             </tr>
                                             
                                         @endforeach

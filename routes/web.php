@@ -21,8 +21,15 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {return view('pages.home');})->name('home');
 
-    Route::get('agregar-usuario', function () {return view('pages.agregarUsuario');})->name('addUser');
+    
+    
+    
+    Route::middleware('admin')->group(function () {
+        Route::get('agregar-usuario', function () {return view('pages.agregarUsuario');})->name('addUser');
+        Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
+    });
 
+    
     Route::get('add-direccion', [DireccionController::class, 'create'])->name('addDireccion');
 
     Route::get('add-persona', [PersonaController::class, 'create'])->name('addPersona');
@@ -35,7 +42,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
 
     Route::post('add-direccion', [DireccionController::class, 'store'])->name('storeDireccion');
 

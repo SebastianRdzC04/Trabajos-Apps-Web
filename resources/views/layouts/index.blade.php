@@ -45,10 +45,12 @@
               </a>
             </li>
             <li>
+              @if(Auth::user()->roles->contains('id', 1))
               <a href="{{route('addUser')}}" class="nav-link text-white">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>
                 Usuarios
               </a>
+              @endif
             </li>
             <li>
               <a href="{{route('addDireccion')}}" class="nav-link text-white">
