@@ -19,12 +19,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {return view('pages.home');})->name('home');
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+});
 
-    Route::middleware('admin')->group(function () {
-        Route::get('agregar-usuario', function () {return view('pages.agregarUsuario');})->name('addUser');
-        Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
-    });
+Route::middleware(['auth', 'isOn'])->group(function () {
+    Route::get('/', function () {return view('pages.home');})->name('home');
     
     Route::get('add-direccion', [DireccionController::class, 'create'])->name('addDireccion');
 
@@ -35,8 +34,6 @@ Route::middleware('auth')->group(function () {
     Route::get('direcciones/{id}', [DireccionController::class, 'getDireccion'])->name('getDireccion');
 
     Route::post('add-persona', [PersonaController::class, 'store'])->name('storePersona');
-
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
     Route::post('add-direccion', [DireccionController::class, 'store'])->name('storeDireccion');
 
@@ -50,8 +47,16 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('change-direccion-persona', [DireccionController::class, 'changePersona'])->name('changeDireccionPersona');
 
+    Route::patch('change-state', [ProfileController::class, 'changeState'])->name('changeState');
+
 
 });
+
+Route::middleware(['admin', 'auth'])->group(function () {
+        Route::get('agregar-usuario', [RegisteredUserController::class, 'create'])->name('addUser');
+        Route::post('register', [RegisteredUserController::class, 'store'])->name('register');
+    });
+
 
 Route::middleware('guest')->group(function () {
 
@@ -62,7 +67,13 @@ Route::middleware('guest')->group(function () {
 
 });
 
-Route::get('prueba', function () {return view('pages.prueba');})->name('prueba');
+Route::middleware('isOf')->group(function () {
+    Route::get('bloqueado', function () {return view('pages.bloqueados');})->name('block');
+});
+
+Route::get('prueba2', function () {return view('pages.bloqueados');})->name('prueba2');
+
+
 
 
 /*

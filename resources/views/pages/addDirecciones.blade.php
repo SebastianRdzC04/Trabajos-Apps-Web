@@ -1,6 +1,6 @@
 @extends('layouts.index')
 
-@section('title', 'Agregar Personas')
+@section('title', 'Agregar Direcciones')
 
 @section('main')
 

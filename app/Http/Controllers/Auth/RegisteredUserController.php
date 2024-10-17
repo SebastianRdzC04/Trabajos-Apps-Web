@@ -20,7 +20,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $users = User::all();
+        $usersP = User::paginate(10);
+        return view('pages.agregarUsuario', compact('users', 'usersP'));
     }
 
     /**
