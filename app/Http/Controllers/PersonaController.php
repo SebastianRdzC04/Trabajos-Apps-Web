@@ -15,7 +15,8 @@ class PersonaController extends Controller
     {
         $users = User::all();
         $personas = Persona::all();
-        return view('pages.agregarPersona', compact('users' , 'personas'));
+        $Ppersonas = Persona::paginate(3);
+        return view('pages.agregarPersona', compact('users' , 'personas', 'Ppersonas'));
     }
     public function store(Request $request)
     {

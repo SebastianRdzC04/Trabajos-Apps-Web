@@ -65,6 +65,8 @@
                                                 <option value="{{ $user->id }}">{{ $user->username }}</option>
                                             @endforeach
                                         </select>
+                                        <label class="form-label" for="username-edit">Nombre</label>
+                                        <input type="text" name="usename-edit" id="username-edit" class="form-control">
                                     </div>
                                     <div class="mb-3">
                                         <label for=""></label>
@@ -82,6 +84,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>UserName</th>
                                             <th>Correo</th>
                                             <th>Estado</th>
@@ -90,27 +93,32 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($usersP as $userP)
-                                            <tr>
-                                                <td>{{ $userP->username }}</td>
-                                                <td>{{ $userP->email }}</td>
-                                                <td>
-                                                    <form action="{{route('changeState')}}" method="POST">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <input type="hidden" name="id" value="{{ $userP->id }}">
-                                                        <select name="estado" id="estado" class="form-select" onchange="changeOwner(this)">
-                                                            @if ($userP->isOn)
-                                                                <option value="1">Activo</option>
-                                                                <option value="0">Inactivo</option>
-                                                            @else
-                                                                <option value="0">Inactivo</option>
-                                                                <option value="1">Activo</option>
-                                                            @endif
-                                                        </select>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            
+                                                <tr>
+                                                    <td><button class="editar-btn btn">editar</button></td>
+                                                    <td><input type="text" name="username" class="form-control"
+                                                            value="{{ $userP->username }}" readonly></td>
+                                                    <td><input type="text" name="email" class="form-control"
+                                                            value="{{ $userP->email }}" readonly></td>
+                                                    <td>
+                                                        <form action="{{ route('changeState') }}" method="POST">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <input type="hidden" name="id"
+                                                                value="{{ $userP->id }}">
+                                                            <select name="estado" id="estado{{$userP->id}}" class="form-select"
+                                                                onchange="">
+                                                                @if ($userP->isOn)
+                                                                    <option value="1">Activo</option>
+                                                                    <option value="0">Inactivo</option>
+                                                                @else
+                                                                    <option value="0">Inactivo</option>
+                                                                    <option value="1">Activo</option>
+                                                                @endif
+                                                            </select>
+                                                        </form>
+                                                    </td>
+                                                    <td><button class="btn confirmar-btn" style="display: none" >confirmar</button></td>
+                                                </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -125,19 +133,12 @@
                 </div>
             </div>
     </section>
-    <script>
-        const changeOwner = (selectElement) => {
-            if (!confirm('¿Estás seguro de cambiar de dueño?')) {
-                //si la persona niega el confirm que tampoco cambie el valor del select, que se quede como estaba antes de darle click al boton
-                document.getElementById('estado').value = document.getElementById('estado').dataset.originalValue;
 
-                return;
-            }
+@endsection
 
-            const newOwner = document.getElementById('estado').value;
-            const form = selectElement.closest('form');
-            form.submit();
-}
-    </script>
 
+
+
+@section('scripts')
+<script src="{{ asset('js/usuarios_script.js')}}"></script>
 @endsection
