@@ -65,4 +65,17 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    public function autenticar(Request $request, $id){
+
+        if (! $request->hasValidSignature()) {
+            abort(403, 'Ya no sirve el enlace');
+        }
+
+        $user = User::find($id);
+        $user->email_verified_at = now();
+        $user->save();
+
+        return redirect()->route('home')->with('status', 'Correo verificado correctamente');
+
+    }
 }

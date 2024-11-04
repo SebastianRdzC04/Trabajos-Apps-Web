@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
-Route::middleware(['auth', 'isOn'])->group(function () {
+Route::middleware(['auth', 'isOn', 'emailAuth'])->group(function () {
     Route::get('/', function () {return view('pages.home');})->name('home');
     
     Route::get('add-direccion', [DireccionController::class, 'create'])->name('addDireccion');
@@ -64,6 +64,10 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
+    Route::get('register', function () {return view('pages.register');})->name('register');
+
+    Route::post('registerc', [RegisteredUserController::class, 'storeuser'])->name('register.client');
+
 
 });
 
@@ -73,6 +77,9 @@ Route::middleware('isOf')->group(function () {
 
 Route::get('prueba2', function () {return view('pages.bloqueados');})->name('prueba2');
 
+Route::get('noAutenticado', function () {return view('pages.noAutenticado');})->name('noAutenticado');
+
+Route::get('autenticar/{id}', [ProfileController::class, 'autenticar'])->name('autenticar')->middleware('signed');
 
 
 

@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\Administrador::class,
         'isOn' => \App\Http\Middleware\UserIsOn::class,
         'isOf' => \App\Http\Middleware\UserIsOf::class,
+        'emailAuth' => \App\Http\Middleware\EmailAuthenticated::class,
     ];
 }
