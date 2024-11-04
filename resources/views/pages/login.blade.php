@@ -31,10 +31,11 @@
                                 <label class="form-check-label" for="remember">Remember me</label>
                             </div>
 
-                            <div class="d-grid">
+                            <div class="d-grid mb-3">
                                 <button type="submit" class="btn btn-primary">Login</button>
                             </div>
                         </form>
+                        <a href="{{route('register')}}">No tienes cuenta? Registrate!!</a>
                     </div>
                 </div>
             </div>

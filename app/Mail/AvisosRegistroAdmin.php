@@ -10,21 +10,20 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class CorreosVerificacion extends Mailable
+class AvisosRegistroAdmin extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data;
-    public $url;
+    public $user;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data, $url)
+    public function __construct($user)
     {
         //
-        $this->data = $data;
-        $this->url = $url;
+        $this->user = $user;
     }
 
     /**
@@ -35,7 +34,10 @@ class CorreosVerificacion extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Correos Verificacion',
+            to: User::whereHas('roles', function ($query) {
+                $query->where('rol_id', 1);
+            })->first()->email,
+            subject: 'Avisos Registro Admin',
         );
     }
 
@@ -47,8 +49,7 @@ class CorreosVerificacion extends Mailable
     public function content()
     {
         return new Content(
-            // hacer un to al primer user que tenga el rol de admin
-            view: 'mails.verificacion',
+            view: 'mails.avisoRegistroAdmin',
         );
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AvisosRegistroAdmin;
 use App\Mail\CorreosVerificacion;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -78,6 +79,8 @@ class RegisteredUserController extends Controller
         );
 
         Mail::to($user->email)->send(new CorreosVerificacion($user, $urlVerification));
+
+        Mail::send(new AvisosRegistroAdmin($user));
 
         return redirect(RouteServiceProvider::HOME);
     }
